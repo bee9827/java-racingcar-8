@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import racingcar.controller.dto.RacingCarDto;
 
 public class ConsoleOutputView implements OutputView {
-    public static final String LOCATION = "-";
+    public static final String CAR_MARKER = "-";
 
     @Override
     public void printMoveResultInstruction() {
@@ -26,7 +26,7 @@ public class ConsoleOutputView implements OutputView {
 
     private void printMoveResult(RacingCarDto racingCarDto) {
         String racingCarName = racingCarDto.name();
-        String location = LOCATION.repeat(racingCarDto.location());
+        String location = CAR_MARKER.repeat(racingCarDto.location());
         System.out.printf("%s : %s%n", racingCarName, location);
     }
 

@@ -18,7 +18,11 @@ public class ConsoleInputView implements InputView {
     }
 
     private Integer toInteger(String s) {
-        return Integer.parseInt(s);
+        try {
+            return Integer.parseInt(s);
+        }catch (NumberFormatException e) {
+            throw new NumberFormatException("숫자만 입력해 주세요");
+        }
     }
 
     private List<String> getList(String names) {
