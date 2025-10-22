@@ -19,6 +19,12 @@ public class RacingCar {
         location = DEFAULT_LOCATION;
     }
 
+    public RacingCar(String name, Integer location) {
+        validateNameFormat(name);
+        this.name = name;
+        this.location = location;
+    }
+
     public String getName() {
         return name;
     }

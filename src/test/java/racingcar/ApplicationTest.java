@@ -29,6 +29,15 @@ class ApplicationTest extends NsTest {
         );
     }
 
+
+    @Test
+    void 숫자_예외_테스트(){
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> runException("pobi,java", "ab"))
+                        .isInstanceOf(IllegalArgumentException.class)
+        );
+    }
+
     @Override
     public void runMain() {
         Application.main(new String[]{});
