@@ -1,6 +1,7 @@
-package racingcar;
+package racingcar.model;
 
 import java.util.List;
+import racingcar.controller.dto.RacingCarDto;
 
 public class RacingGame {
     private final List<RacingCar> racingCars;

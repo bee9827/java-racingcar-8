@@ -1,5 +1,13 @@
 package racingcar;
 
+import racingcar.controller.RacingCarController;
+import racingcar.model.RandomValueGenerator;
+import racingcar.model.RandomValueGeneratorImpl;
+import racingcar.view.ConsoleInputView;
+import racingcar.view.ConsoleOutputView;
+import racingcar.view.InputView;
+import racingcar.view.OutputView;
+
 public class RacingCarConfig {
     private final InputView inputView;
     private final OutputView outputView;

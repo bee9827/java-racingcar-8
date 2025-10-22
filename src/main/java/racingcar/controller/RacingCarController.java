@@ -1,6 +1,12 @@
-package racingcar;
+package racingcar.controller;
 
 import java.util.List;
+import racingcar.model.RacingCar;
+import racingcar.controller.dto.RacingCarDto;
+import racingcar.model.RacingGame;
+import racingcar.model.RandomValueGenerator;
+import racingcar.view.InputView;
+import racingcar.view.OutputView;
 
 public class RacingCarController {
     private final InputView inputView;

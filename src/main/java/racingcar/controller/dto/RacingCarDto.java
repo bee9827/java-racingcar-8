@@ -1,4 +1,6 @@
-package racingcar;
+package racingcar.controller.dto;
+
+import racingcar.model.RacingCar;
 
 public record RacingCarDto(
         String name,

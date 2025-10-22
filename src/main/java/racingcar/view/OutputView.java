@@ -1,6 +1,7 @@
-package racingcar;
+package racingcar.view;
 
 import java.util.List;
+import racingcar.controller.dto.RacingCarDto;
 
 public interface OutputView {
     void printMoveResultInstruction();

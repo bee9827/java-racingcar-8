@@ -4,6 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import racingcar.controller.dto.RacingCarDto;
+import racingcar.model.RacingCar;
+import racingcar.model.RacingGame;
+import racingcar.model.RandomValueGenerator;
 
 class RacingGameTest {
 

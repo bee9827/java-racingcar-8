@@ -1,7 +1,8 @@
-package racingcar;
+package racingcar.view;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.controller.dto.RacingCarDto;
 
 public class ConsoleOutputView implements OutputView {
     public static final String LOCATION = "-";
