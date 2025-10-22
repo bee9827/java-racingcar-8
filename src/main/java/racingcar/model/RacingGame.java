@@ -5,14 +5,12 @@ import racingcar.controller.dto.RacingCarDto;
 
 public class RacingGame {
     private final List<RacingCar> racingCars;
-    private final RandomValueGenerator randomValueGenerator;
 
-    public RacingGame(List<RacingCar> racingCars, RandomValueGenerator randomValueGenerator) {
+    public RacingGame(List<RacingCar> racingCars) {
         this.racingCars = racingCars;
-        this.randomValueGenerator = randomValueGenerator;
     }
 
-    public List<RacingCarDto> moves() {
+    public List<RacingCarDto> moves(final RandomValueGenerator randomValueGenerator) {
         racingCars.forEach(racingCar ->
                 racingCar.move(randomValueGenerator.generate()));
 
