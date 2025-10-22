@@ -21,6 +21,7 @@ public class RacingCar {
 
     public RacingCar(String name, Integer location) {
         validateNameFormat(name);
+        validateNegativeLocation(location);
         this.name = name;
         this.location = location;
     }
@@ -45,6 +46,12 @@ public class RacingCar {
     private void validateValueRange(int randomValue) {
         if (randomValue < MIN_VALUE || randomValue > MAX_VALUE) {
             throw new IllegalArgumentException("%d ~ %d 사이의 값을 입력해 주세요".formatted(MIN_VALUE, MAX_VALUE));
+        }
+    }
+
+    private void validateNegativeLocation(Integer location) {
+        if (location < DEFAULT_LOCATION) {
+            throw new IllegalStateException("유효하지 않은 위치 입니다. : %d ".formatted(location));
         }
     }
 
