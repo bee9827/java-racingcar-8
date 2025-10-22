@@ -5,13 +5,13 @@ import java.util.regex.Pattern;
 public class RacingCar {
     public static final int MIN_VALUE = 0;
     public static final int MAX_VALUE = 9;
+    public static final int MOVE_THRESHOLD = 4;
 
     private static final int DEFAULT_LOCATION = 0;
-    private static final int MOVE_THRESHOLD = 4;
     private static final Pattern NAME_REGEX = Pattern.compile("^[A-Za-z0-9가-힣-]{1,5}$");
 
     private final String name;
-    private int location;
+    private Integer location;
 
     public RacingCar(String name) {
         validateNameFormat(name);
