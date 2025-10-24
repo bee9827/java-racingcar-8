@@ -23,6 +23,8 @@ public class RacingCarController {
         RacingGame racingGame = RacingGame.from(inputView.readCarNames());
         playGame(inputView.readTryCount(), racingGame);
         endGame(racingGame);
+
+        inputView.close();
     }
 
     private void playGame(Integer moveCount, RacingGame racingGame) {

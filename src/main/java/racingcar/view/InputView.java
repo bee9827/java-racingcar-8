@@ -6,4 +6,6 @@ public interface InputView {
     List<String> readCarNames();
 
     Integer readTryCount();
+
+    void close();
 }

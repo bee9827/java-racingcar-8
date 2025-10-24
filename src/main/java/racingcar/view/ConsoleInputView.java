@@ -17,6 +17,11 @@ public class ConsoleInputView implements InputView {
         return toInteger(Console.readLine());
     }
 
+    @Override
+    public void close() {
+        Console.close();
+    }
+
     private Integer toInteger(String s) {
         try {
             return Integer.parseInt(s);

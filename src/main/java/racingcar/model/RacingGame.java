@@ -24,19 +24,6 @@ public class RacingGame {
                 .toList();
     }
 
-    private int getDistinctSize(List<RacingCar> racingCars) {
-        return racingCars.stream()
-                .distinct()
-                .toList()
-                .size();
-    }
-
-    private void validateNonDuplicate(List<RacingCar> racingCars) {
-        if (getDistinctSize(racingCars) != racingCars.size()) {
-            throw RacingCarExceptionFactory.of(RacingCarErrorMessage.DUPLICATE_CAR_NAME, racingCars);
-        }
-    }
-
     public List<RacingCarDto> moves(final RandomValueGenerator randomValueGenerator) {
         racingCars.forEach(racingCar ->
                 racingCar.move(randomValueGenerator.generate()));
@@ -53,6 +40,19 @@ public class RacingGame {
                 .filter(racingCar -> racingCar.getPosition() == maxLocation)
                 .map(RacingCarDto::from)
                 .toList();
+    }
+
+    private int getDistinctSize(List<RacingCar> racingCars) {
+        return racingCars.stream()
+                .distinct()
+                .toList()
+                .size();
+    }
+
+    private void validateNonDuplicate(List<RacingCar> racingCars) {
+        if (getDistinctSize(racingCars) != racingCars.size()) {
+            throw RacingCarExceptionFactory.of(RacingCarErrorMessage.DUPLICATE_CAR_NAME, racingCars);
+        }
     }
 
     private Integer getMaxLocation() {

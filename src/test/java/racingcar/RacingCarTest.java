@@ -80,8 +80,10 @@ class RacingCarTest {
     void testUnModifiable(){
         String NAME = "car";
         RacingCar racingCar = new RacingCar(NAME);
+
         String name = racingCar.getName();
         name = "변경";
+
         assertThat(racingCar.getName()).isEqualTo(NAME);
     }
 }
