@@ -26,7 +26,7 @@ public class ConsoleOutputView implements OutputView {
 
     private void printMoveResult(RacingCarDto racingCarDto) {
         String racingCarName = racingCarDto.name();
-        String location = CAR_MARKER.repeat(racingCarDto.location());
+        String location = CAR_MARKER.repeat(racingCarDto.position());
         System.out.printf("%s : %s%n", racingCarName, location);
     }
 

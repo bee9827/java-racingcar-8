@@ -37,7 +37,7 @@ class RacingGameTest {
 
         List<Integer> moveResults = racingGame.moves(new MoveGenerator())
                 .stream()
-                .map(RacingCarDto::location)
+                .map(RacingCarDto::position)
                 .toList();
 
         assertThat(moveResults).hasSize(3);
@@ -63,7 +63,7 @@ class RacingGameTest {
 
         //then
         assertThat(winners).hasSize(2);
-        assertThat(winners.getFirst().location()).isEqualTo(2);
+        assertThat(winners.getFirst().position()).isEqualTo(2);
     }
 
     private static class MoveGenerator implements RandomValueGenerator {

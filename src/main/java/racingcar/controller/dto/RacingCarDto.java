@@ -4,7 +4,7 @@ import racingcar.model.RacingCar;
 
 public record RacingCarDto(
         String name,
-        Integer location
+        Integer position
 ) {
     public static RacingCarDto from(RacingCar racingCar) {
         return new RacingCarDto(racingCar.getName(), racingCar.getPosition());
