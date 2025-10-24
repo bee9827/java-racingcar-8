@@ -13,7 +13,18 @@ public class RacingGame {
         this.racingCars = racingCars;
     }
 
-    private static int getDistinctSize(List<RacingCar> racingCars) {
+    public static RacingGame from(List<String> racingCarNames) {
+        List<RacingCar> racingCars = toRacingCars(racingCarNames);
+        return new RacingGame(racingCars);
+    }
+
+    private static List<RacingCar> toRacingCars(List<String> carNames) {
+        return carNames.stream()
+                .map(RacingCar::new)
+                .toList();
+    }
+
+    private int getDistinctSize(List<RacingCar> racingCars) {
         return racingCars.stream()
                 .distinct()
                 .toList()
@@ -36,7 +47,7 @@ public class RacingGame {
     }
 
     public List<RacingCarDto> getWinners() {
-        Integer maxLocation = getMaxLocation();
+        int maxLocation = getMaxLocation();
 
         return racingCars.stream()
                 .filter(racingCar -> racingCar.getPosition() == maxLocation)

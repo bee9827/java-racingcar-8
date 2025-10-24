@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EmptySource;
@@ -72,5 +73,15 @@ class RacingCarTest {
             assertThatThrownBy(() -> racingCar.move(moveValue))
                     .isInstanceOf(IllegalArgumentException.class);
         }
+    }
+
+    @Test
+    @DisplayName("불변객체 확인")
+    void testUnModifiable(){
+        String NAME = "car";
+        RacingCar racingCar = new RacingCar(NAME);
+        String name = racingCar.getName();
+        name = "변경";
+        assertThat(racingCar.getName()).isEqualTo(NAME);
     }
 }

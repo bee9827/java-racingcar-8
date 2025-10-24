@@ -2,7 +2,6 @@ package racingcar.controller;
 
 import java.util.List;
 import racingcar.controller.dto.RacingCarDto;
-import racingcar.model.RacingCar;
 import racingcar.model.RacingGame;
 import racingcar.model.RandomValueGenerator;
 import racingcar.view.InputView;
@@ -21,14 +20,9 @@ public class RacingCarController {
     }
 
     public void run() {
-        RacingGame racingGame = makeGame(inputView.readCarNames());
+        RacingGame racingGame = RacingGame.from(inputView.readCarNames());
         playGame(inputView.readTryCount(), racingGame);
         endGame(racingGame);
-    }
-
-    private RacingGame makeGame(List<String> carNames) {
-        List<RacingCar> racingCars = toRacingCars(carNames);
-        return new RacingGame(racingCars);
     }
 
     private void playGame(Integer moveCount, RacingGame racingGame) {
@@ -44,9 +38,5 @@ public class RacingCarController {
         outputView.printWinners(winners);
     }
 
-    private List<RacingCar> toRacingCars(List<String> carNames) {
-        return carNames.stream()
-                .map(RacingCar::new)
-                .toList();
-    }
+
 }
