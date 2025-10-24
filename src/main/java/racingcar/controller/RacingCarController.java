@@ -21,12 +21,12 @@ public class RacingCarController {
     }
 
     public void run() {
-        RacingGame racingGame = startGame(inputView.readCarNames());
+        RacingGame racingGame = makeGame(inputView.readCarNames());
         playGame(inputView.readTryCount(), racingGame);
         endGame(racingGame);
     }
 
-    private RacingGame startGame(List<String> carNames) {
+    private RacingGame makeGame(List<String> carNames) {
         List<RacingCar> racingCars = toRacingCars(carNames);
         return new RacingGame(racingCars);
     }

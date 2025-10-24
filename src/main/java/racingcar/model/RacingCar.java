@@ -1,43 +1,46 @@
 package racingcar.model;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
+import racingcar.model.exception.RacingCarErrorMessage;
+import racingcar.model.exception.RacingCarExceptionFactory;
 
 public class RacingCar {
     public static final int MIN_VALUE = 0;
     public static final int MAX_VALUE = 9;
     public static final int MOVE_THRESHOLD = 4;
 
-    private static final int DEFAULT_LOCATION = 0;
+    private static final int DEFAULT_POSITION = 0;
     private static final Pattern NAME_REGEX = Pattern.compile("^[A-Za-z0-9가-힣-]{1,5}$");
 
     private final String name;
-    private Integer location;
+    private Integer position;
 
     public RacingCar(String name) {
         validateNameFormat(name);
         this.name = name;
-        location = DEFAULT_LOCATION;
+        position = DEFAULT_POSITION;
     }
 
-    public RacingCar(String name, Integer location) {
+    public RacingCar(String name, Integer position) {
         validateNameFormat(name);
-        validateNegativeLocation(location);
+        validateNegativePosition(position);
         this.name = name;
-        this.location = location;
+        this.position = position;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getLocation() {
-        return location;
+    public int getPosition() {
+        return position;
     }
 
     public boolean move(int moveValue) {
         validateValueRange(moveValue);
         if (moveValue >= MOVE_THRESHOLD) {
-            location++;
+            position++;
         }
 
         return moveValue >= MOVE_THRESHOLD;
@@ -49,15 +52,40 @@ public class RacingCar {
         }
     }
 
-    private void validateNegativeLocation(Integer location) {
-        if (location < DEFAULT_LOCATION) {
-            throw new IllegalStateException("유효하지 않은 위치 입니다. : %d ".formatted(location));
+    private void validateNegativePosition(Integer position) {
+        if (position < DEFAULT_POSITION) {
+            throw RacingCarExceptionFactory.of(RacingCarErrorMessage.INVALID_POSITION, position);
         }
     }
 
     private void validateNameFormat(String name) {
         if (!NAME_REGEX.matcher(name).matches()) {
-            throw new IllegalArgumentException("유효하지 않은 이름 형식입니다.");
+            throw RacingCarExceptionFactory.of(RacingCarErrorMessage.INVALID_NAME, name);
         }
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        RacingCar racingCar = (RacingCar) object;
+        return Objects.equals(name, racingCar.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
+    public String toString() {
+        return "RacingCar{" +
+                "name='" + name + '\'' +
+                ", position=" + position +
+                '}';
     }
 }
