@@ -1,6 +1,7 @@
 package racingcar;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +12,19 @@ import racingcar.model.RacingGame;
 import racingcar.model.RandomValueGenerator;
 
 class RacingGameTest {
+
+    @Test
+    @DisplayName("new(): [예외] 중복된 이름 이라면 예외를 반환한다.")
+    void constructor() {
+        List<RacingCar> racingCars = List.of(
+                new RacingCar("중복", 0),
+                new RacingCar("중복", 0)
+        );
+        assertThatThrownBy(() -> new RacingGame(racingCars))
+                .isInstanceOf(IllegalArgumentException.class);
+
+    }
+
     @Test
     @DisplayName("moves(): ")
     void moves() {
