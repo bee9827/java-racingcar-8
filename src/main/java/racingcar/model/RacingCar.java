@@ -48,7 +48,9 @@ public class RacingCar {
 
     private void validateValueRange(int randomValue) {
         if (randomValue < MIN_VALUE || randomValue > MAX_VALUE) {
-            throw new IllegalStateException("randomValue: %d ~ %d 사이의 값만 허용됩니다.".formatted(MIN_VALUE, MAX_VALUE));
+            throw RacingCarExceptionFactory.stateOf(
+                    RacingCarErrorMessage.INVALID_STATE_RANDOM_VALUE,
+                    MIN_VALUE, MAX_VALUE);
         }
     }
 
