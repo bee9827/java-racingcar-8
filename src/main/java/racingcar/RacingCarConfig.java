@@ -14,9 +14,17 @@ public class RacingCarConfig {
     private final RandomValueGenerator randomValueGenerator;
 
     public RacingCarConfig() {
-        this.inputView = new ConsoleInputView();
-        this.outputView = new ConsoleOutputView();
+        this.inputView = getConsoleInputView();
+        this.outputView = getConsoleOutputView();
         this.randomValueGenerator = new RandomValueGeneratorImpl();
+    }
+
+    private ConsoleOutputView getConsoleOutputView() {
+        return new ConsoleOutputView();
+    }
+
+    private ConsoleInputView getConsoleInputView() {
+        return new ConsoleInputView();
     }
 
     public RacingCarController createController() {
