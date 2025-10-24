@@ -33,7 +33,7 @@ public class RacingCar {
         return name;
     }
 
-    public int getPosition() {
+    public Integer getPosition() {
         return position;
     }
 
@@ -85,9 +85,7 @@ public class RacingCar {
 
     @Override
     public String toString() {
-        return "RacingCar{" +
-                "name='" + name + '\'' +
-                ", position=" + position +
-                '}';
+        return "RacingCar{name='%s', position=%d}"
+                .formatted(name, position);
     }
 }
