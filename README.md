@@ -1,4 +1,68 @@
 # java-racingcar-precourse
+## 클래스 다이어그램
+
+아래는 RacingCar 프로젝트의 클래스 관계를 요약한 UML 다이어그램입니다.
+
+```mermaid
+classDiagram
+    direction TB
+
+    %% --- Core Flow ---
+    class RacingCarController {
+        - inputView: InputView
+        - outputView: OutputView
+        - randomValueGenerator: RandomValueGenerator
+        + run()
+    }
+
+    class RacingGame {
+        - racingCars: List~RacingCar~
+        + moves(RandomValueGenerator): List~RacingCarDto~
+        + getWinners(): List~RacingCarDto~
+    }
+
+    class RacingCar {
+        - name: String
+        - position: Integer
+        + move(int): boolean
+    }
+
+    class RacingCarDto {
+        + name: String
+        + position: Integer
+        + from(RacingCar)
+    }
+
+    %% --- View & Utils ---
+    class InputView {
+        <<interface>>
+        + readCarNames(): List~String~
+        + readTryCount(): Integer
+    }
+
+    class OutputView {
+        <<interface>>
+        + printMoveResults(List~RacingCarDto~)
+        + printWinners(List~RacingCarDto~)
+    }
+
+    class RandomValueGenerator {
+        <<interface>>
+        + generate(): int
+    }
+
+    %% --- Relationships ---
+    RacingCarController --> InputView : gets input
+    RacingCarController --> OutputView : prints output
+    RacingCarController --> RandomValueGenerator : injects
+    RacingCarController --> RacingGame : controls flow
+
+    RacingGame --> RacingCar : contains
+    RacingGame --> RacingCarDto : produces
+    RacingCarDto ..> RacingCar : createdFrom
+
+``` 
+
 
 ## 기능 목록
 
