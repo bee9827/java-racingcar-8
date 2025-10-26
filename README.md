@@ -74,13 +74,11 @@ classDiagram
     %% Controller Layer
     
     InputView <-- RacingCarController : "사용자 입력 주입"
+    ConsoleInputView ..|> InputView
     OutputView <-- RacingCarController : "게임 결과 출력 주입"
-    RandomValueGenerator <-- RacingCarController : "랜덤 값 생성기 주입"
+    ConsoleOutputView ..|> OutputView
+    RandomValueGeneratorImpl ..|> RandomValueGenerator <-- RacingCarController : "랜덤 값 생성기 주입"
     RacingCarController --> RacingGame : "게임 진행 제어"
-    
-    InputView <|.. ConsoleInputView
-    OutputView <|.. ConsoleOutputView
-    RandomValueGenerator <|.. RandomValueGeneratorImpl
 
     %% Domain Layer
     RacingGame --> RacingCar : "자동차 목록 관리"
