@@ -7,8 +7,7 @@
 classDiagram
     direction TB
 
-    %% --- Layer Grouping ---
-    %% Controller Layer
+    %% --- Controller Layer ---
     class RacingCarController {
         + run()
         - inputView: InputView
@@ -17,27 +16,7 @@ classDiagram
         - racingGame: RacingGame
     }
 
-    %% Domain Layer
-    class RacingGame {
-        + moves(RandomValueGenerator)
-        + getWinners()
-        - racingCars: List~RacingCar~
-    }
-
-    class RacingCar {
-        + move(int)
-        - name: String
-        - position: Integer
-    }
-
-    %% Data Transfer
-    class RacingCarDto {
-        + name: String
-        + position: Integer
-        + from(RacingCar)
-    }
-
-    %% View Layer
+    %% --- View Layer ---
     class InputView {
         <<interface>>
         + readCarNames()
@@ -50,26 +29,72 @@ classDiagram
         + printWinners()
     }
 
-    %% Utility
+    class ConsoleInputView {
+        + readCarNames()
+        + readTryCount()
+        + close()
+    }
+
+    class ConsoleOutputView {
+        + printMoveResults()
+        + printWinners()
+    }
+
+    %% --- Domain Layer ---
+    class RacingGame {
+        + moves(RandomValueGenerator)
+        + getWinners()
+        - racingCars: List~RacingCar~
+    }
+
+    class RacingCar {
+        + move(int)
+        - name: String
+        - position: Integer
+    }
+
+    %% --- Data Transfer ---
+    class RacingCarDto {
+        + name: String
+        + position: Integer
+        + from(RacingCar)
+    }
+
+    %% --- Utility Layer ---
     class RandomValueGenerator {
         <<interface>>
         + generate()
     }
 
-    %% --- Relationships ---
-    InputView <-- RacingCarController : "사용자 입력 요청"
-    OutputView <-- RacingCarController : "게임 결과 출력"
-    RacingCarController --> RandomValueGenerator : "랜덤 값 주입"
+    class RandomValueGeneratorImpl {
+        + generate()
+    }
+
+    %% --- Relationships (with Role Labels) ---
+    %% Controller Layer
+    InputView <|.. ConsoleInputView
+    OutputView <|.. ConsoleOutputView
+    RandomValueGenerator <|.. RandomValueGeneratorImpl
+
+    InputView <-- RacingCarController : "사용자 입력 주입"
+    OutputView <-- RacingCarController : "게임 결과 출력 주입"
+    RandomValueGenerator <-- RacingCarController : "랜덤 값 생성기 주입"
     RacingCarController --> RacingGame : "게임 진행 제어"
 
+    %% Domain Layer
     RacingGame --> RacingCar : "자동차 목록 관리"
     RacingGame --> RacingCarDto : "결과 데이터 생성"
+    RacingGame --> RandomValueGenerator : "moves()에서 사용"
+
     RacingCarDto ..> RacingCar : "데이터 변환"
 
-    %% --- Notes for Readability ---
-    note for RacingCarController "게임의 전체 흐름을 제어하는 핵심 클래스"
-    note for RacingGame "자동차들의 움직임과 우승자 계산을 담당"
-    note for RacingCar "각 자동차의 상태(name, position)를 관리"
+    %% --- Notes ---
+    note for RacingCarController "🎮 프로그램 전체 흐름을 제어하고 의존 객체를 주입받음"
+    note for RacingGame "🏁 자동차들의 이동 로직과 우승자 계산을 담당"
+    note for ConsoleInputView "⌨️ 사용자 입력을 콘솔로부터 읽어옴"
+    note for ConsoleOutputView "🖥️ 이동 결과 및 우승자를 출력"
+    note for RandomValueGeneratorImpl "🎲 랜덤 숫자를 생성하여 자동차 이동 결정에 사용"
+
 ``` 
 
 
