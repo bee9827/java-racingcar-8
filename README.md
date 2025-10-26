@@ -1,4 +1,5 @@
 # java-racingcar-precourse
+
 ## 클래스 다이어그램
 
 아래는 RacingCar 프로젝트의 클래스 관계를 요약한 UML 다이어그램입니다.
@@ -25,8 +26,8 @@ classDiagram
 
     class OutputView {
         <<interface>>
-        + printMoveResults()
-        + printWinners()
+        + printMoveResults(List~RacingCarDto~)
+        + printWinners(List~RacingCarDto~)
     }
 
     class ConsoleInputView {
@@ -36,14 +37,14 @@ classDiagram
     }
 
     class ConsoleOutputView {
-        + printMoveResults()
-        + printWinners()
+        + printMoveResults(List~RacingCarDto~)
+        + printWinners(List~RacingCarDto~)
     }
 
     %% --- Domain Layer ---
     class RacingGame {
-        + moves(RandomValueGenerator)
-        + getWinners()
+        + moves(RandomValueGenerator): List~RacingCarDto~
+        + getWinners(): List~RacingCarDto~
         - racingCars: List~RacingCar~
     }
 
@@ -51,13 +52,6 @@ classDiagram
         + move(int)
         - name: String
         - position: Integer
-    }
-
-    %% --- Data Transfer ---
-    class RacingCarDto {
-        + name: String
-        + position: Integer
-        + from(RacingCar)
     }
 
     %% --- Utility Layer ---
@@ -71,36 +65,29 @@ classDiagram
     }
 
     %% --- Relationships (with Role Labels) ---
-    %% Controller Layer
-    
-    InputView <-- RacingCarController : "사용자 입력 주입"
+    %% Input/Output Connections
     ConsoleInputView ..|> InputView
-    OutputView <-- RacingCarController : "게임 결과 출력 주입"
     ConsoleOutputView ..|> OutputView
-    RandomValueGenerator <-- RacingCarController : "랜덤 값 생성기 주입"
+
+    InputView <-- RacingCarController : "사용자 입력 요청"
+    OutputView <-- RacingCarController : "출력 요청"
+
+    %% Utility & Domain
+    RandomValueGenerator <.. RacingGame : "moves()에서 사용"
+    RacingCarController ..> RacingGame : "RandomValueGenerator 주입"
     RandomValueGeneratorImpl ..|> RandomValueGenerator
-    RacingCarController --> RacingGame : "게임 진행 제어"
     
-    InputView <|.. ConsoleInputView
-    OutputView <|.. ConsoleOutputView
-    RandomValueGenerator <|.. RandomValueGeneratorImpl
 
-    %% Domain Layer
+    %% Domain 내부 구조
     RacingGame --> RacingCar : "자동차 목록 관리"
-    RacingGame --> RacingCarDto : "결과 데이터 생성"
-    RacingGame --> RandomValueGenerator : "moves()에서 사용"
-
-    RacingCarDto ..> RacingCar : "데이터 변환"
 
     %% --- Notes ---
-    note for RacingCarController "🎮 프로그램 전체 흐름을 제어하고 의존 객체를 주입받음"
-    note for RacingGame "🏁 자동차들의 이동 로직과 우승자 계산을 담당"
-    note for ConsoleInputView "⌨️ 사용자 입력을 콘솔로부터 읽어옴"
-    note for ConsoleOutputView "🖥️ 이동 결과 및 우승자를 출력"
-    note for RandomValueGeneratorImpl "🎲 랜덤 숫자를 생성하여 자동차 이동 결정에 사용"
-
+    note for RacingCarController "🎮 전체 흐름 제어 및 의존성 주입 중심"
+    note for RacingGame "🏁 자동차 이동과 우승자 계산 담당"
+    note for ConsoleInputView "⌨️ 입력 처리"
+    note for ConsoleOutputView "🖥️ DTO 기반 결과 출력"
+    note for RandomValueGeneratorImpl "🎲 이동 판단용 랜덤 값 생성"
 ``` 
-
 
 ## 기능 목록
 
@@ -126,10 +113,10 @@ pobi,woni,jun
 #### 자동차 관리
 
 -[x] 이름을 관리한다.
-    - 이름은 1~5사이의 문자이다.
+    - 이름은 1\~5사이의 문자이다.
     - 영어, 한글, 숫자, 문자 "-" 로 구성된다.
 -[x] 위치를 관리한다.
-    - 0~9 사이의 값을 받으며, 무작위 값이 4 이상일 경우 전진한다.
+    - 0\~9 사이의 값을 받으며, 무작위 값이 4 이상일 경우 전진한다.
 
 예외 목록
 
@@ -151,7 +138,7 @@ pobi,woni,jun
 -[x] 자동차들을 관리한다.
     - 중복된 이름의 자동차는 불가능하다.
 -[x] n대의 자동차는 주어진 횟수동안 전진하거나 멈춘다.
-    - 랜덤값 생성기를 이용하여 0~9 사이의 값을 전달한다.
+    - 랜덤값 생성기를 이용하여 0\~9 사이의 값을 전달한다.
 -[x] 우승자를 반환한다.
     - 우승자는 한 명 이상일 수 있다.
     - 우승자가 여러 명일 경우 쉼표`,`를 이용하여 구분한다.
@@ -159,7 +146,7 @@ pobi,woni,jun
 예외 목록
 
 | 분야 |     예시     | 이유     |
-  |----|:----------:|:-------|
+|----|:----------:|:-------|
 | 이름 | yong, yong | 중복된 이름 |
 
 ### 출력
@@ -238,7 +225,6 @@ public class RacingGame {
 2. `RacingGame::moves()` 함수 외에는 해당 객체를 사용하지 않는다.
 3. 테스트를 진행할 때 각 `RacingGame::moves()` 에 원하는 동작을 실행시키기 어렵다. -> 테스트하기 어렵다
 
-
 테스트를 진행하기 위해서는 `RacingGame`을 생성하는 모든 시점에서 `RandomValueGenerator`를 만들고 주입을 해줘야 합니다. 하지만 이는 불 필요한 일 입니다.
 또한 `RacingGame::moves()`를 테스트 할때 `움직일 수 있는 값`,`움직일 수 없는 값` 두 가지를 테스트 하기가 어려웠습니다.
 
@@ -262,10 +248,12 @@ public class RacingGame {
     ...
 }
 ```
-함수에서 객체를 주입받아 사용함으로써 관리책임에서 벗어나고 로직에만 집중할 수 있게 되었습니다. 
+
+함수에서 객체를 주입받아 사용함으로써 관리책임에서 벗어나고 로직에만 집중할 수 있게 되었습니다.
 더 쉽게 테스트 할 수 있게 되었고, 기능이 정상적으로 동작 함을 보증할 수 있게 되었습니다.
 
-> 참고한것 : [DIP 원칙](https://inpa.tistory.com/entry/OOP-%F0%9F%92%A0-%EC%95%84%EC%A3%BC-%EC%89%BD%EA%B2%8C-%EC%9D%B4%ED%95%B4%ED%95%98%EB%8A%94-DIP-%EC%9D%98%EC%A1%B4-%EC%97%AD%EC%A0%84-%EC%9B%90%EC%B9%99)
+>
+참고한것 : [DIP 원칙](https://inpa.tistory.com/entry/OOP-%F0%9F%92%A0-%EC%95%84%EC%A3%BC-%EC%89%BD%EA%B2%8C-%EC%9D%B4%ED%95%B4%ED%95%98%EB%8A%94-DIP-%EC%9D%98%EC%A1%B4-%EC%97%AD%EC%A0%84-%EC%9B%90%EC%B9%99)
 
 ### 예외처리 문구 관리
 
