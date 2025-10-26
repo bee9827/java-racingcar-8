@@ -1,4 +1,96 @@
 # java-racingcar-precourse
+## 클래스 다이어그램
+
+아래는 RacingCar 프로젝트의 클래스 관계를 요약한 UML 다이어그램입니다.
+
+```mermaid
+classDiagram
+    direction TB
+
+    class RacingCarController {
+        - inputView: InputView
+        - outputView: OutputView
+        - randomValueGenerator: RandomValueGenerator
+        + run()
+        - playGame(moveCount, racingGame)
+        - endGame(racingGame)
+    }
+
+    class InputView {
+        <<interface>>
+        + readCarNames(): List~String~
+        + readTryCount(): Integer
+        + close()
+    }
+    class OutputView {
+        <<interface>>
+        + printMoveResultInstruction()
+        + printMoveResults(List~RacingCarDto~)
+        + printWinners(List~RacingCarDto~)
+    }
+    class ConsoleInputView {
+        + readCarNames()
+        + readTryCount()
+        + close()
+        + DELIMITER: String
+    }
+    class ConsoleOutputView {
+        + printMoveResultInstruction()
+        + printMoveResults(List~RacingCarDto~)
+        + printWinners(List~RacingCarDto~)
+        + CAR_MARKER: String
+    }
+
+    class RandomValueGenerator {
+        <<interface>>
+        + generate(): int
+    }
+    class RandomValueGeneratorImpl {
+        + generate(): int
+    }
+
+    class RacingGame {
+        - racingCars: List~RacingCar~
+        + RacingGame(List~RacingCar~)
+        + static from(List~String~): RacingGame
+        + moves(RandomValueGenerator): List~RacingCarDto~
+        + getWinners(): List~RacingCarDto~
+    }
+
+    class RacingCar {
+        - name: String
+        - position: Integer
+        + RacingCar(name)
+        + RacingCar(name, position)
+        + getName(): String
+        + getPosition(): Integer
+        + move(int): boolean
+    }
+
+    class RacingCarDto {
+        <<data>>
+        + name(): String
+        + position(): Integer
+        + static from(RacingCar): RacingCarDto
+    }
+
+    %% Relationships
+    RacingCarController --> InputView
+    RacingCarController --> OutputView
+    RacingCarController --> RandomValueGenerator
+    RacingCarController --> RacingGame
+
+    InputView <|.. ConsoleInputView
+    OutputView <|.. ConsoleOutputView
+    RandomValueGenerator <|.. RandomValueGeneratorImpl
+
+    RacingGame --> RacingCar : contains 0..*
+    RacingGame --> RacingCarDto : produces 0..*
+    RacingGame ..> RandomValueGenerator : uses (passed into moves)
+
+    RacingCarDto ..|> RacingCar : createdFrom
+``` 
+
 
 ## 기능 목록
 
