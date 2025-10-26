@@ -7,60 +7,69 @@
 classDiagram
     direction TB
 
-    %% --- Core Flow ---
+    %% --- Layer Grouping ---
+    %% Controller Layer
     class RacingCarController {
+        + run()
         - inputView: InputView
         - outputView: OutputView
         - randomValueGenerator: RandomValueGenerator
-        + run()
+        - racingGame: RacingGame
     }
 
+    %% Domain Layer
     class RacingGame {
+        + moves(RandomValueGenerator)
+        + getWinners()
         - racingCars: List~RacingCar~
-        + moves(RandomValueGenerator): List~RacingCarDto~
-        + getWinners(): List~RacingCarDto~
     }
 
     class RacingCar {
+        + move(int)
         - name: String
         - position: Integer
-        + move(int): boolean
     }
 
+    %% Data Transfer
     class RacingCarDto {
         + name: String
         + position: Integer
         + from(RacingCar)
     }
 
-    %% --- View & Utils ---
+    %% View Layer
     class InputView {
         <<interface>>
-        + readCarNames(): List~String~
-        + readTryCount(): Integer
+        + readCarNames()
+        + readTryCount()
     }
 
     class OutputView {
         <<interface>>
-        + printMoveResults(List~RacingCarDto~)
-        + printWinners(List~RacingCarDto~)
+        + printMoveResults()
+        + printWinners()
     }
 
+    %% Utility
     class RandomValueGenerator {
         <<interface>>
-        + generate(): int
+        + generate()
     }
 
     %% --- Relationships ---
-    RacingCarController --> InputView : gets input
-    RacingCarController --> OutputView : prints output
-    RacingCarController --> RandomValueGenerator : injects
-    RacingCarController --> RacingGame : controls flow
+    InputView <-- RacingCarController : "사용자 입력 요청"
+    OutputView <-- RacingCarController : "게임 결과 출력"
+    RacingCarController --> RandomValueGenerator : "랜덤 값 주입"
+    RacingCarController --> RacingGame : "게임 진행 제어"
 
-    RacingGame --> RacingCar : contains
-    RacingGame --> RacingCarDto : produces
-    RacingCarDto ..> RacingCar : createdFrom
+    RacingGame --> RacingCar : "자동차 목록 관리"
+    RacingGame --> RacingCarDto : "결과 데이터 생성"
+    RacingCarDto ..> RacingCar : "데이터 변환"
 
+    %% --- Notes for Readability ---
+    note for RacingCarController "게임의 전체 흐름을 제어하는 핵심 클래스"
+    note for RacingGame "자동차들의 움직임과 우승자 계산을 담당"
+    note for RacingCar "각 자동차의 상태(name, position)를 관리"
 ``` 
 
 
