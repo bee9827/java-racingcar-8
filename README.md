@@ -80,6 +80,10 @@ classDiagram
     RandomValueGenerator <-- RacingCarController : "랜덤 값 생성기 주입"
     RandomValueGeneratorImpl ..|> RandomValueGenerator
     RacingCarController --> RacingGame : "게임 진행 제어"
+    
+    InputView <|.. ConsoleInputView
+    OutputView <|.. ConsoleOutputView
+    RandomValueGenerator <|.. RandomValueGeneratorImpl
 
     %% Domain Layer
     RacingGame --> RacingCar : "자동차 목록 관리"
