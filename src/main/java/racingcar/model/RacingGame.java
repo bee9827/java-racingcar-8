@@ -28,18 +28,15 @@ public class RacingGame {
         racingCars.forEach(racingCar ->
                 racingCar.move(randomValueGenerator.generate()));
 
-        return racingCars.stream()
-                .map(RacingCarDto::from)
-                .toList();
+        return toDto(racingCars);
     }
 
     public List<RacingCarDto> getWinners() {
-        int maxLocation = getMaxLocation();
-
-        return racingCars.stream()
-                .filter(racingCar -> racingCar.getPosition() == maxLocation)
-                .map(RacingCarDto::from)
+        List<RacingCar> winners = racingCars.stream()
+                .filter(racingCar -> racingCar.getPosition() == getMaxLocation())
                 .toList();
+        
+        return toDto(winners);
     }
 
     private int getDistinctSize(List<RacingCar> racingCars) {
@@ -55,10 +52,16 @@ public class RacingGame {
         }
     }
 
-    private Integer getMaxLocation() {
+    private int getMaxLocation() {
         return racingCars.stream()
                 .map(RacingCar::getPosition)
                 .max(Integer::compareTo)
                 .orElse(0);
+    }
+
+    private List<RacingCarDto> toDto(List<RacingCar> racingCars) {
+        return racingCars.stream()
+                .map(RacingCarDto::from)
+                .toList();
     }
 }
