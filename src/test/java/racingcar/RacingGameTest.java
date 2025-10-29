@@ -20,7 +20,7 @@ class RacingGameTest {
                 new RacingCar("중복", 0),
                 new RacingCar("중복", 0)
         );
-        assertThatThrownBy(() -> new RacingGame(racingCars))
+        assertThatThrownBy(() -> new RacingGame(racingCars, 1))
                 .isInstanceOf(IllegalArgumentException.class);
 
     }
@@ -33,7 +33,7 @@ class RacingGameTest {
                 new RacingCar("car2", 2),
                 new RacingCar("car3", 3)
         );
-        RacingGame racingGame = new RacingGame(racingCars);
+        RacingGame racingGame = new RacingGame(racingCars, 1);
 
         List<Integer> moveResults = racingGame.moves(new MoveGenerator())
                 .stream()
@@ -56,7 +56,7 @@ class RacingGameTest {
                 new RacingCar("우승자2", 2),
                 new RacingCar("일반", 0)
         );
-        RacingGame racingGame = new RacingGame(racingCars);
+        RacingGame racingGame = new RacingGame(racingCars, 1);
 
         //when
         List<RacingCarDto> winners = racingGame.getWinners();

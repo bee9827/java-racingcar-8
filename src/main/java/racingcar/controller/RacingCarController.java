@@ -20,16 +20,16 @@ public class RacingCarController {
     }
 
     public void run() {
-        RacingGame racingGame = RacingGame.from(inputView.readCarNames());
-        playGame(inputView.readTryCount(), racingGame);
+        RacingGame racingGame = RacingGame.from(inputView.readCarNames(), inputView.readTryCount());
+        playGame(racingGame);
         endGame(racingGame);
 
         inputView.close();
     }
 
-    private void playGame(Integer moveCount, RacingGame racingGame) {
+    private void playGame(RacingGame racingGame) {
         outputView.printMoveResultInstruction();
-        for (int i = 0; i < moveCount; i++) {
+        while (racingGame.canMove()) {
             List<RacingCarDto> moveResult = racingGame.moves(randomValueGenerator);
             outputView.printMoveResults(moveResult);
         }
@@ -39,6 +39,4 @@ public class RacingCarController {
         List<RacingCarDto> winners = racingGame.getWinners();
         outputView.printWinners(winners);
     }
-
-
 }
