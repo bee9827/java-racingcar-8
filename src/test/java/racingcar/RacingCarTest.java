@@ -71,7 +71,7 @@ class RacingCarTest {
         void invalidMoveValue(int moveValue) {
             RacingCar racingCar = new RacingCar("car");
             assertThatThrownBy(() -> racingCar.move(moveValue))
-                    .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(IllegalStateException.class);
         }
     }
 

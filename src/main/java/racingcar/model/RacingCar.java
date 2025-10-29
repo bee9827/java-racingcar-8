@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 import racingcar.model.exception.RacingCarErrorMessage;
 import racingcar.model.exception.RacingCarExceptionFactory;
 
-public class RacingCar {
+public class RacingCar implements Comparable<RacingCar> {
     public static final int MIN_VALUE = 0;
     public static final int MAX_VALUE = 9;
     public static final int MOVE_THRESHOLD = 4;
@@ -87,5 +87,10 @@ public class RacingCar {
     public String toString() {
         return "RacingCar{name='%s', position=%d}"
                 .formatted(name, position);
+    }
+
+    @Override
+    public int compareTo(RacingCar o) {
+        return position.compareTo(o.position);
     }
 }
