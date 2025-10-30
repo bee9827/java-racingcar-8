@@ -1,7 +1,6 @@
 package racingcar.model;
 
 import java.util.Objects;
-import java.util.regex.Pattern;
 import racingcar.model.exception.RacingCarErrorMessage;
 import racingcar.model.exception.RacingCarExceptionFactory;
 
@@ -11,26 +10,22 @@ public class RacingCar implements Comparable<RacingCar> {
     public static final int MOVE_THRESHOLD = 4;
     public static final int DEFAULT_POSITION = 0;
 
-    private static final Pattern NAME_REGEX = Pattern.compile("^[A-Za-z0-9가-힣-]{1,5}$");
-
-    private final String name;
+    private final Name name;
     private Integer position;
 
     public RacingCar(String name) {
-        validateNameFormat(name);
-        this.name = name;
+        this.name = new Name(name);
         position = DEFAULT_POSITION;
     }
 
     public RacingCar(String name, Integer position) {
-        validateNameFormat(name);
         validateNegativePosition(position);
-        this.name = name;
+        this.name = new Name(name);
         this.position = position;
     }
 
     public String getName() {
-        return name;
+        return name.toString();
     }
 
     public Integer getPosition() {
@@ -57,12 +52,6 @@ public class RacingCar implements Comparable<RacingCar> {
     private void validateNegativePosition(Integer position) {
         if (position < DEFAULT_POSITION) {
             throw RacingCarExceptionFactory.of(RacingCarErrorMessage.INVALID_POSITION, position);
-        }
-    }
-
-    private void validateNameFormat(String name) {
-        if (!NAME_REGEX.matcher(name).matches()) {
-            throw RacingCarExceptionFactory.of(RacingCarErrorMessage.INVALID_NAME, name);
         }
     }
 
