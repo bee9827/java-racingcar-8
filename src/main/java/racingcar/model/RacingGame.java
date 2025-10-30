@@ -33,13 +33,13 @@ public class RacingGame {
         return attemptCount < maxAttemptCount;
     }
 
-    public List<RacingCarDto> moves(final RandomValueGenerator randomValueGenerator) {
+    public List<RacingCarDto> moves(final NumberGenerator numberGenerator) {
         if (!canMove()) {
             throw RacingCarExceptionFactory.stateOf(
                     RacingCarErrorMessage.INVALID_STATE_ATTEMPT_COUNT, maxAttemptCount, attemptCount);
         }
         racingCars.forEach(racingCar ->
-                racingCar.move(randomValueGenerator.generate()));
+                racingCar.move(numberGenerator.generate()));
 
         attemptCount++;
         return toDto(racingCars);

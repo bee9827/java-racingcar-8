@@ -1,8 +1,8 @@
 package racingcar;
 
 import racingcar.controller.RacingCarController;
-import racingcar.model.RandomValueGenerator;
-import racingcar.model.RandomValueGeneratorImpl;
+import racingcar.model.NumberGenerator;
+import racingcar.model.RandomNumberGenerator;
 import racingcar.view.ConsoleInputView;
 import racingcar.view.ConsoleOutputView;
 import racingcar.view.InputView;
@@ -11,12 +11,12 @@ import racingcar.view.OutputView;
 public class RacingCarConfig {
     private final InputView inputView;
     private final OutputView outputView;
-    private final RandomValueGenerator randomValueGenerator;
+    private final NumberGenerator numberGenerator;
 
     public RacingCarConfig() {
         this.inputView = getConsoleInputView();
         this.outputView = getConsoleOutputView();
-        this.randomValueGenerator = new RandomValueGeneratorImpl();
+        this.numberGenerator = new RandomNumberGenerator();
     }
 
     private ConsoleOutputView getConsoleOutputView() {
@@ -28,6 +28,6 @@ public class RacingCarConfig {
     }
 
     public RacingCarController createController() {
-        return new RacingCarController(inputView, outputView, randomValueGenerator);
+        return new RacingCarController(inputView, outputView, numberGenerator);
     }
 }

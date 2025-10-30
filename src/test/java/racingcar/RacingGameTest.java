@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import racingcar.controller.dto.RacingCarDto;
 import racingcar.model.RacingCar;
 import racingcar.model.RacingGame;
-import racingcar.model.RandomValueGenerator;
+import racingcar.model.NumberGenerator;
 
 class RacingGameTest {
 
@@ -66,7 +66,7 @@ class RacingGameTest {
         assertThat(winners.getFirst().position()).isEqualTo(2);
     }
 
-    private static class MoveGenerator implements RandomValueGenerator {
+    private static class MoveGenerator implements NumberGenerator {
         @Override
         public int generate() {
             return RacingCar.MOVE_THRESHOLD;

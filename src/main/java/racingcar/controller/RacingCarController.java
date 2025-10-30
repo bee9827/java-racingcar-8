@@ -2,21 +2,21 @@ package racingcar.controller;
 
 import java.util.List;
 import racingcar.controller.dto.RacingCarDto;
+import racingcar.model.NumberGenerator;
 import racingcar.model.RacingGame;
-import racingcar.model.RandomValueGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
 public class RacingCarController {
     private final InputView inputView;
     private final OutputView outputView;
-    private final RandomValueGenerator randomValueGenerator;
+    private final NumberGenerator numberGenerator;
 
     public RacingCarController(
-            InputView inputView, OutputView outputView, RandomValueGenerator randomValueGenerator) {
+            InputView inputView, OutputView outputView, NumberGenerator numberGenerator) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.randomValueGenerator = randomValueGenerator;
+        this.numberGenerator = numberGenerator;
     }
 
     public void run() {
@@ -30,7 +30,7 @@ public class RacingCarController {
     private void playGame(RacingGame racingGame) {
         outputView.printMoveResultInstruction();
         while (racingGame.canMove()) {
-            List<RacingCarDto> moveResult = racingGame.moves(randomValueGenerator);
+            List<RacingCarDto> moveResult = racingGame.moves(numberGenerator);
             outputView.printMoveResults(moveResult);
         }
     }

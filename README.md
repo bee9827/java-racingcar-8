@@ -13,7 +13,7 @@ classDiagram
         + run()
         - inputView: InputView
         - outputView: OutputView
-        - randomValueGenerator: RandomValueGenerator
+        - numberGenerator: RandomValueGenerator
         - racingGame: RacingGame
     }
 
@@ -201,16 +201,16 @@ test를 진행할 때 `움직일 수 있는 값` 과 `움직일 수 없는 값`�
 ```java
 public class RacingGame {
     private final List<RacingCar> racingCars;
-    private final RandomValueGenerator randomValueGenerator;
+    private final RandomValueGenerator numberGenerator;
 
-    public RacingGame(List<RacingCar> racingCars, RandomValueGenerator randomValueGenerator) {
+    public RacingGame(List<RacingCar> racingCars, RandomValueGenerator numberGenerator) {
         this.racingCars = racingCars;
-        this.randomValueGenerator = randomValueGenerator;
+        this.numberGenerator = numberGenerator;
     }
 
     public List<RacingCarDto> moves() {
         racingCars.forEach(racingCar ->
-                racingCar.move(randomValueGenerator.generate()));
+                racingCar.move(numberGenerator.generate()));
     ...
     }
   
@@ -238,9 +238,9 @@ public class RacingGame {
         this.racingCars = racingCars;
     }
 
-    public List<RacingCarDto> moves(final RandomValueGenerator randomValueGenerator) {
+    public List<RacingCarDto> moves(final RandomValueGenerator numberGenerator) {
         racingCars.forEach(racingCar ->
-                racingCar.move(randomValueGenerator.generate()));
+                racingCar.move(numberGenerator.generate()));
 
         ...
     }
